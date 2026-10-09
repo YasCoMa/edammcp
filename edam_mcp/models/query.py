@@ -12,7 +12,7 @@ class BiotoolsQueryRequest(BaseModel):
         max_length=10000,
     )
 
-    max_results: int | None = Field(10, ge=1, le=100, description="Maximum number of query hits to return")
+    max_results: int = Field(10, ge=1, le=100, description="Maximum number of query hits to return")
 
 class BiotoolsHit(BaseModel):
     """Represents a query hit item (tool) with the name, description and the edam terms found for the ontology categories."""
@@ -23,13 +23,13 @@ class BiotoolsHit(BaseModel):
 
     biotools_link: str = Field(..., description="Tool link in biotools")
 
-    topic_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms beloging to topic category")
+    topic_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms belonging to topic category")
 
-    operation_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms beloging to operation category")
+    operation_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms belonging to operation category")
 
-    data_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms beloging to data category")
+    data_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms belonging to data category")
 
-    format_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms beloging to format category")
+    format_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms belonging to format category")
 
 class BiotoolsQueryResponse(BaseModel):
     """Response model for biotools query results."""

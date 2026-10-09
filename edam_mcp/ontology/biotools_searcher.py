@@ -8,7 +8,8 @@ logger = logging.getLogger(__name__)
 class BiotoolsSearcher:
     
     def _explore_api_url(self, matches, url):
-        r = requests.get(url)
+        r = requests.get(url, timeout=(3.05, 30) )
+        r.raise_for_status()
         data = r.json()
         next_page = data['next']
 
@@ -71,7 +72,8 @@ class BiotoolsSearcher:
         matches = []
 
         url = f"https://bio.tools/api/t/?q={seed}&format=json&per_page=100"
-        r = requests.get(url)
+        r = requests.get(url, timeout=(3.05, 30) )
+        r.raise_for_status()
         data = r.json()
         total = data['count']
         next_page = data['next']

@@ -18,7 +18,7 @@ async def query_biotools(
         context: MCP context for logging and progress reporting.
 
     Returns:
-        Mapping response with matched concepts and confidence scores.
+        Biotools query response with matching tools and their associated EDAM terms.
     """
     context.info(request)
     try:
