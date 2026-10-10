@@ -2,15 +2,22 @@
 
 from pydantic import BaseModel, Field
 
-class BiotoolsQueryRequest(BaseModel):
+class BiotoolsQueryTextRequest(BaseModel):
     """Request model for biotools query."""
 
     seed: str = Field(
         ...,
-        description="Search keyword to search in tool names and descriptions.",
+        description="Search textual keyword to search in tool names and descriptions.",
         min_length=1,
         max_length=10000,
     )
+
+    max_results: int = Field(10, ge=1, le=100, description="Maximum number of query hits to return")
+
+class BiotoolsQueryTermsRequest(BaseModel):
+    """Request model for biotools query."""
+
+    edam_terms: list[str] = Field(default_factory=list, description="List of uris of the EDAM terms to search for similars in bio.tools")
 
     max_results: int = Field(10, ge=1, le=100, description="Maximum number of query hits to return")
 

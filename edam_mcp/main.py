@@ -12,12 +12,12 @@ from .models.mapping import MappingRequest, MappingResponse
 from .models.segmentation import SegmentationRequest, SegmentationResponse
 from .models.suggestion import SuggestionRequest, SuggestionResponse
 from .models.workflow import WorkflowSummaryRequest, WorkflowSummaryResponse
-from .models.query import BiotoolsQueryRequest, BiotoolsQueryResponse
+from .models.query import BiotoolsQueryTextRequest, BiotoolsQueryTermsRequest, BiotoolsQueryResponse
 
 from .tools import map_to_edam_concept, suggest_new_concept
 from .tools.segment_text import segment_text
 from .tools.workflow import get_workflow_summary
-from .tools.query_biotools import query_biotools
+from .tools.query_biotools import query_biotools_by_text, query_biotools_by_edam_terms
 
 # Configure logging
 logging.basicConfig(
@@ -58,9 +58,14 @@ def create_server() -> FastMCP:
         return await suggest_new_concept(request, context)
 
     @mcp.tool
-    async def query_biotools_database(request: BiotoolsQueryRequest, context: Context) -> BiotoolsQueryResponse:
-        """Query biotools database searching for tools given the user keyword."""
-        return await query_biotools(request, context)
+    async def query_biotools_database_by_text(request: BiotoolsQueryTextRequest, context: Context) -> BiotoolsQueryResponse:
+        """Query biotools database searching generically by a textual description for tools."""
+        return await query_biotools_by_text(request, context)
+
+    @mcp.tool
+    async def query_biotools_database_by_edam_terms(request: BiotoolsQueryTermsRequest, context: Context) -> BiotoolsQueryResponse:
+        """Query biotools database searching for tools given a list of EDAM concept URIs."""
+        return await query_biotools_by_edam_terms(request, context)
 
     return mcp
 
